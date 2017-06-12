@@ -24,12 +24,12 @@ Function Get-ViSession {
 
         }
         If ($_.Key -eq $SessionMgr.CurrentSession.Key) {
-            $Session | Add-Member -MemberType NoteProperty -Name Status -Value “Current Session”
+            $Session | Add-Member -MemberType NoteProperty -Name Status -Value "Current Session"
         }
         Else {
-            $Session | Add-Member -MemberType NoteProperty -Name Status -Value “Idle”
+            $Session | Add-Member -MemberType NoteProperty -Name Status -Value "Idle"
         }
-        $Session | Add-Member -MemberType NoteProperty -Name IdleMinutes -Value ([Math]::Round(((Get-Date) – ($_.LastActiveTime).ToLocalTime()).TotalMinutes))
+        $Session | Add-Member -MemberType NoteProperty -Name IdleMinutes -Value ([Math]::Round(((Get-Date) - ($_.LastActiveTime).ToLocalTime()).TotalMinutes))
         $script:AllSessions += $Session
     }
     $script:AllSessions
@@ -60,9 +60,9 @@ Function Disconnect-ViSession {
     Process {
         $SessionMgr = Get-View $DefaultViserver.ExtensionData.Client.ServiceContent.SessionManager
         $SessionList | ForEach-Object {
-            “Disconnecting Session for $($_.Username) which has been active since $($_.LoginTime)”
+            "Disconnecting Session for $($_.Username) which has been active since $($_.LoginTime)"
             $SessionMgr.TerminateSession($_.Key)
         }
     }
 }
-Export-ModuleMember -Function ['Get-ViSession','Disconnect-ViSession']
+Export-ModuleMember -Function 'Get-ViSession','Disconnect-ViSession'
